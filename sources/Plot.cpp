@@ -50,6 +50,28 @@ float FunctionManager::getH() const noexcept
     return _h;
 }
 
+const std::vector<FunctionManager::Point2f> &FunctionManager::calculate() noexcept
+{
+    float x = _from;
+    
+    _points.clear();
+    _points.reserve((unsigned)ceil((_to - _from) / _h));
+    
+    while(x < _to + 0.5 * _h)
+    {
+        _points.emplace_back(x, _function(x));
+        
+        x += _h;
+    }
+    
+    return _points;
+}
+
+const std::vector<FunctionManager::Point2f> &FunctionManager::points() const noexcept
+{
+    return _points;
+}
+
 FunctionManager::FunctionsManagerException::FunctionsManagerException(std::string message) : _message(message)
 {
 
