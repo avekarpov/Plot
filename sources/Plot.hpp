@@ -23,9 +23,9 @@ public:
     void setH(float h);
     
     const std::function<float(float)> &getFunction() const noexcept;
-    float getFrom() const;
-    float getTo() const;
-    float getH() const;
+    float getFrom() const noexcept;
+    float getTo() const noexcept;
+    float getH() const noexcept;
     
     const std::vector<Point2f> &calculate() noexcept;
     
@@ -34,7 +34,7 @@ public:
     class FunctionsManagerException : public std::exception
     {
     public:
-        FunctionsManagerException(std::string message);
+        explicit FunctionsManagerException(std::string message);
         
         const char * what() const override;
         
