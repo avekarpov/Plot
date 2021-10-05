@@ -114,6 +114,7 @@ void PlotManager::display(float left, float right, float bottom, float top)
     sf::Clock frameTime;
     sf::Event event;
     
+    sf::Vector2i mousePosition;
     sf::Vector2i previousMousePosition = sf::Mouse::getPosition(window);
 
     window.setFramerateLimit(FRAME_RATE);
@@ -135,9 +136,9 @@ void PlotManager::display(float left, float right, float bottom, float top)
             }
         }
         
+        mousePosition = sf::Mouse::getPosition(window);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
             sf::Vector2f positionDifferent;
             
             positionDifferent.x = (float)(mousePosition.x - previousMousePosition.x) * ((right - left) / (float)_windowSize.x);
@@ -147,13 +148,8 @@ void PlotManager::display(float left, float right, float bottom, float top)
             right  -= positionDifferent.x;
             bottom += positionDifferent.y;
             top    += positionDifferent.y;
-            
-            previousMousePosition = mousePosition;
         }
-        else
-        {
-            previousMousePosition = sf::Mouse::getPosition(window);
-        }
+        previousMousePosition = mousePosition;
         
         if(frameTime.getElapsedTime() > sf::milliseconds((signed int)(1000.0 / FRAME_RATE)))
         {
