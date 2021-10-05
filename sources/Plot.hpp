@@ -36,7 +36,7 @@ public:
     public:
         explicit FunctionsManagerException(std::string message);
         
-        const char * what() const override;
+        const char *what() const override;
         
     private:
         std::string _message;

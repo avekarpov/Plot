@@ -1,5 +1,7 @@
 #include "Plot.hpp"
 
+#include <utility>
+
 FunctionManager::FunctionManager(std::function<float(float)> function, float from, float to, float h) : _function(std::move(function)), _from(from), _to(to), _h(h)
 {
 
@@ -87,7 +89,7 @@ float FunctionManager::_basicFunction(float x) noexcept
     return x;
 }
 
-FunctionManager::FunctionsManagerException::FunctionsManagerException(std::string message) : _message(message)
+FunctionManager::FunctionsManagerException::FunctionsManagerException(std::string message) : _message(std::move(message))
 {
 
 }
