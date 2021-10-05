@@ -32,11 +32,6 @@ void FunctionManager::setH(float h)
     _h = h;
 }
 
-void FunctionManager::setPoints(std::vector<Point2f> points) noexcept
-{
-    _points = std::move(points);
-}
-
 const std::function<float(float)> &FunctionManager::getFunction() const noexcept
 {
     return _function;
@@ -57,7 +52,7 @@ float FunctionManager::getH() const noexcept
     return _h;
 }
 
-const std::vector<FunctionManager::Point2f> &FunctionManager::calculate()
+std::vector<Point2f> FunctionManager::calculate() const
 {
     if(_from > _to)
     {
@@ -66,22 +61,18 @@ const std::vector<FunctionManager::Point2f> &FunctionManager::calculate()
     
     float x = _from;
     
-    _points.clear();
-    _points.reserve((unsigned)ceil((_to - _from) / _h) + 1);
+    std::vector<Point2f> points;
+    
+    points.reserve((unsigned)ceil((_to - _from) / _h) + 1);
     
     while(std::abs(x - (_to + 0.5 * _h)) > std::numeric_limits<float>::epsilon())
     {
-        _points.emplace_back(x, _function(x));
+        points.emplace_back(x, _function(x));
         
         x += _h;
     }
     
-    return _points;
-}
-
-const std::vector<FunctionManager::Point2f> &FunctionManager::getPoints() const noexcept
-{
-    return _points;
+    return points;
 }
 
 float FunctionManager::_basicFunction(float x) noexcept
@@ -95,6 +86,26 @@ FunctionManager::FunctionsManagerException::FunctionsManagerException(std::strin
 }
 
 const char *FunctionManager::FunctionsManagerException::what() const
+{
+    return _message.c_str();
+}
+
+void PlotManager::setPoints(std::vector<Point2f> points) noexcept
+{
+    _points = std::move(points);
+}
+
+const std::vector<Point2f> &PlotManager::getPoints() const noexcept
+{
+    return _points;
+}
+
+PlotManager::PlotManagerException::PlotManagerException(std::string message) : _message(std::move(message))
+{
+
+}
+
+const char *PlotManager::PlotManagerException::what() const
 {
     return _message.c_str();
 }
