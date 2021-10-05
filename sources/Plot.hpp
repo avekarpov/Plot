@@ -38,6 +38,7 @@ public:
         
     private:
         std::string _message;
+        
     };
     
 private:
@@ -57,11 +58,13 @@ private:
 class PlotManager
 {
 public:
-    PlotManager() = default;
+    PlotManager(std::string windowTitle, sf::Vector2u windowSize);
     
     void setPoints(std::vector<Point2f> points) noexcept;
     
     const std::vector<Point2f> &getPoints() const noexcept;
+    
+    void display(float left, float right, float bottom, float top);
     
     class PlotManagerException : public std::exception
     {
@@ -78,6 +81,10 @@ public:
 private:
     std::vector<Point2f> _points;
     
+    std::string _windowTitle;
+    sf::Vector2u _windowSize;
+    
+    static const unsigned FRAME_RATE = 60;
 };
 
 
