@@ -77,6 +77,11 @@ const std::vector<FunctionManager::Point2f> &FunctionManager::getPoints() const 
     return _points;
 }
 
+float FunctionManager::_basicFunction(float x) noexcept
+{
+    return x;
+}
+
 FunctionManager::FunctionsManagerException::FunctionsManagerException(std::string message) : _message(message)
 {
 
