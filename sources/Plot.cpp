@@ -111,9 +111,10 @@ const std::vector<Point2f> &PlotManager::getPoints() const noexcept
 void PlotManager::display(float left, float right, float bottom, float top)
 {
     sf::RenderWindow window(sf::VideoMode(_windowSize.x, _windowSize.y), _windowTitle.c_str(), sf::Style::Close | sf::Style::Titlebar);
+    sf::Clock frameTime;
     sf::Event event;
     
-    sf::Clock frameTime;
+    sf::Vector2i previousMousePosition = sf::Mouse::getPosition(window);
 
     window.setFramerateLimit(FRAME_RATE);
     
@@ -132,6 +133,26 @@ void PlotManager::display(float left, float right, float bottom, float top)
                     break;
                 }
             }
+        }
+        
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+            sf::Vector2f positionDifferent;
+            
+            positionDifferent.x = (float)(mousePosition.x - previousMousePosition.x) * ((right - left) / (float)_windowSize.x);
+            positionDifferent.y = (float)(mousePosition.y - previousMousePosition.y) * ((top - bottom) / (float)_windowSize.y);
+            
+            left   -= positionDifferent.x;
+            right  -= positionDifferent.x;
+            bottom += positionDifferent.y;
+            top    += positionDifferent.y;
+            
+            previousMousePosition = mousePosition;
+        }
+        else
+        {
+            previousMousePosition = sf::Mouse::getPosition(window);
         }
         
         if(frameTime.getElapsedTime() > sf::milliseconds((signed int)(1000.0 / FRAME_RATE)))
