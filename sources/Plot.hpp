@@ -21,15 +21,15 @@ public:
     void setFrom(float from) noexcept;
     void setTo(float to) noexcept;
     void setH(float h);
+    void setPoints(std::vector<Point2f> points) noexcept;
     
     const std::function<float(float)> &getFunction() const noexcept;
     float getFrom() const noexcept;
     float getTo() const noexcept;
     float getH() const noexcept;
+    const std::vector<Point2f> &getPoints() const noexcept;
     
     const std::vector<Point2f> &calculate() noexcept;
-    
-    const std::vector<Point2f> &points() const noexcept;
     
     class FunctionsManagerException : public std::exception
     {

@@ -30,6 +30,11 @@ void FunctionManager::setH(float h)
     _h = h;
 }
 
+void FunctionManager::setPoints(std::vector<Point2f> points) noexcept
+{
+    _points = std::move(points);
+}
+
 const std::function<float(float)> &FunctionManager::getFunction() const noexcept
 {
     return _function;
@@ -67,7 +72,7 @@ const std::vector<FunctionManager::Point2f> &FunctionManager::calculate() noexce
     return _points;
 }
 
-const std::vector<FunctionManager::Point2f> &FunctionManager::points() const noexcept
+const std::vector<FunctionManager::Point2f> &FunctionManager::getPoints() const noexcept
 {
     return _points;
 }
