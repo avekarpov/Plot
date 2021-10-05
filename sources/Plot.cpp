@@ -60,9 +60,9 @@ const std::vector<FunctionManager::Point2f> &FunctionManager::calculate() noexce
     float x = _from;
     
     _points.clear();
-    _points.reserve((unsigned)ceil((_to - _from) / _h));
+    _points.reserve((unsigned)ceil((_to - _from) / _h) + 1);
     
-    while(x < _to + 0.5 * _h)
+    while(std::abs(x - (_to + 0.5 * _h)) > std::numeric_limits<float>::epsilon())
     {
         _points.emplace_back(x, _function(x));
         
