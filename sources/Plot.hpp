@@ -29,7 +29,7 @@ public:
     float getH() const noexcept;
     const std::vector<Point2f> &getPoints() const noexcept;
     
-    const std::vector<Point2f> &calculate() noexcept;
+    const std::vector<Point2f> &calculate();
     
     class FunctionsManagerException : public std::exception
     {

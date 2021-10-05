@@ -55,8 +55,13 @@ float FunctionManager::getH() const noexcept
     return _h;
 }
 
-const std::vector<FunctionManager::Point2f> &FunctionManager::calculate() noexcept
+const std::vector<FunctionManager::Point2f> &FunctionManager::calculate()
 {
+    if(_from > _to)
+    {
+        throw FunctionsManagerException("Incorrect segment: from > to");
+    }
+    
     float x = _from;
     
     _points.clear();
