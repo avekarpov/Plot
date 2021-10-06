@@ -211,8 +211,8 @@ void PlotManager::_handleWindowEvents(PlotManager::PlotInformation &plotInformat
                     {
                         plotInformation.left   += delta;
                         plotInformation.right  -= delta;
-                        plotInformation.bottom += delta;
-                        plotInformation.top    -= delta;
+                        plotInformation.bottom += delta * ((float)_windowSize.y / (float)_windowSize.x);
+                        plotInformation.top    -= delta * ((float)_windowSize.y / (float)_windowSize.x);
                     }
                 }
                 
