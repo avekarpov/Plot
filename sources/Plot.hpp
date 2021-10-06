@@ -58,15 +58,17 @@ private:
 class PlotManager
 {
 public:
-    PlotManager(std::string windowTitle, sf::Vector2u windowSize);
+    PlotManager(std::string windowTitle, sf::Vector2u windowSize, std::string fontPath);
     
     void setPoints(std::vector<Point2f> points) noexcept;
     void setWindowTitle(std::string windowTitle) noexcept;
     void setWindowSize(sf::Vector2u windowSize) noexcept;
+    void setFontPath(std::string fontPath) noexcept;
     
     const std::vector<Point2f> &getPoints() const noexcept;
     const std::string &getWindowTitle() const noexcept;
     sf::Vector2u getWindowSize() const noexcept;
+    std::string getFontPath() const noexcept;
     
     void display(float left, float right, float bottom, float top);
     
@@ -88,7 +90,10 @@ private:
     std::string _windowTitle;
     sf::Vector2u _windowSize;
     
+    std::string _fontPath;
+    
     static const unsigned FRAME_RATE = 60;
+    static const unsigned TEXT_SIZE = 12;
 };
 
 

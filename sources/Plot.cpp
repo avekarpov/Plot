@@ -5,6 +5,7 @@
 #include <SFML/OpenGL.hpp>
 #include <iostream>
 
+
 FunctionManager::FunctionManager(std::function<float(float)> function, float from, float to, float h) : _function(std::move(function)), _from(from), _to(to), _h(h)
 {
 
@@ -93,7 +94,7 @@ const char *FunctionManager::FunctionsManagerException::what() const
     return _message.c_str();
 }
 
-PlotManager::PlotManager(std::string windowTitle, sf::Vector2u windowSize) : _windowTitle(std::move(windowTitle)), _windowSize(windowSize)
+PlotManager::PlotManager(std::string windowTitle, sf::Vector2u windowSize, std::string fontPath) : _windowTitle(std::move(windowTitle)), _windowSize(windowSize), _fontPath(std::move(fontPath))
 {
 
 }
@@ -114,12 +115,23 @@ void PlotManager::display(float left, float right, float bottom, float top)
     sf::Clock frameTime;
     sf::Event event;
     
+    sf::Font font;
+    sf::Text mousePositionText, plotInformationText;
+    
     sf::Vector2i mousePosition;
     sf::Vector2i previousMousePosition = sf::Mouse::getPosition(window);
+    sf::Vector2f plotMousePosition;
 
     window.setFramerateLimit(FRAME_RATE);
-    
     glViewport(0, 0, (int)_windowSize.x, (int)_windowSize.y);
+    
+    font.loadFromFile(_fontPath);
+    mousePositionText.setFont(font);
+    mousePositionText.setFillColor(sf::Color::Red);
+    mousePositionText.setCharacterSize(TEXT_SIZE);
+    plotInformationText.setFont(font);
+    plotInformationText.setFillColor(sf::Color::Red);
+    plotInformationText.setCharacterSize(TEXT_SIZE);
     
     while(window.isOpen())
     {
@@ -190,7 +202,6 @@ void PlotManager::display(float left, float right, float bottom, float top)
             }
             glEnd();
     
-    
             glBegin(GL_LINE_STRIP);
             {
                 glColor3f(1, 1, 1);
@@ -200,6 +211,26 @@ void PlotManager::display(float left, float right, float bottom, float top)
                 }
             }
             glEnd();
+    
+            plotInformationText.setString("left: " + std::to_string(left) + " right: " + std::to_string(right) + '\n' + "bottom: " + std::to_string(bottom) + " top: " + std::to_string(top));
+            plotInformationText.setPosition({0, 0});
+            
+            plotMousePosition.y = (float)_windowSize.y - (float)mousePosition.y;
+            plotMousePosition.x = (float)mousePosition.x;
+            plotMousePosition.x /= (float)_windowSize.x / (right - left);
+            plotMousePosition.y /= (float)_windowSize.y / (top - bottom);
+            plotMousePosition.x += left;
+            plotMousePosition.y += bottom;
+    
+            mousePositionText.setString("x: " + std::to_string(plotMousePosition.x) + " y: " + std::to_string(plotMousePosition.y));
+            mousePositionText.setPosition({0, 40});
+    
+            window.pushGLStates();
+            
+            window.draw(plotInformationText);
+            window.draw(mousePositionText);
+            
+            window.popGLStates();
             
             window.display();
         }
