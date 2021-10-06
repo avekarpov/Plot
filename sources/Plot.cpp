@@ -133,6 +133,24 @@ void PlotManager::display(float left, float right, float bottom, float top)
                     
                     break;
                 }
+                
+                case sf::Event::MouseWheelScrolled:
+                {
+                    if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+                    {
+                        float delta = event.mouseWheelScroll.delta;
+                        
+                        if(right - left > -2.0 * delta && top - bottom > -2.0 * delta)
+                        {
+                            left -= delta;
+                            right += delta;
+                            bottom -= delta;
+                            top += delta;
+                        }
+                    }
+                    
+                    break;
+                }
             }
         }
         
