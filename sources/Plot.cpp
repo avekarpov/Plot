@@ -206,6 +206,26 @@ void PlotManager::display(float left, float right, float bottom, float top)
     }
 }
 
+void PlotManager::setWindowTitle(std::string windowTitle) noexcept
+{
+    _windowTitle = std::move(windowTitle);
+}
+
+void PlotManager::setWindowSize(sf::Vector2u windowSize) noexcept
+{
+    _windowSize = windowSize;
+}
+
+const std::string &PlotManager::getWindowTitle() const noexcept
+{
+    return _windowTitle;
+}
+
+sf::Vector2u PlotManager::getWindowSize() const noexcept
+{
+    return _windowSize;
+}
+
 PlotManager::PlotManagerException::PlotManagerException(std::string message) : _message(std::move(message))
 {
 
