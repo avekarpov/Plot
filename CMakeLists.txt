@@ -11,11 +11,6 @@ include_directories(C:/Libraries/SFML/include)
 link_directories(C:/Libraries/SFML/lib/Debug)
 
 find_package(OpenGL REQUIRED)
-if(OpenGL_FOUND)
-    message("OpenGL is found here:")
-    message("\tInclude dir ${OpenGL_INCLUDE_DIRS}")
-    message("\tLibraries   ${OPENGL_LIBRARIES}")
-endif()
 include_directories(${OpenGL_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} ${hpps} ${cpps})
