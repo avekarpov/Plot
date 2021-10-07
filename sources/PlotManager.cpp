@@ -108,6 +108,24 @@ void PlotManager::_handleWindowEvents(PlotManager::PlotInformation &plotInformat
                 
                 break;
             }
+    
+            case sf::Event::KeyPressed:
+            {
+                switch(event.key.code)
+                {
+                    case sf::Keyboard::Space:
+                    {
+                        float xAxisLength = plotInformation.right - plotInformation.left, yAxisLength = plotInformation.top - plotInformation.bottom;
+                        
+                        plotInformation.left = -0.5 * xAxisLength;
+                        plotInformation.right = 0.5 * xAxisLength;
+                        plotInformation.bottom = -0.5 * yAxisLength;
+                        plotInformation.top = 0.5 * yAxisLength;
+                    }
+                }
+                
+                break;
+            }
             
             case sf::Event::MouseWheelScrolled:
             {
@@ -115,12 +133,23 @@ void PlotManager::_handleWindowEvents(PlotManager::PlotInformation &plotInformat
                 {
                     float delta = event.mouseWheelScroll.delta;
                     
-                    if(plotInformation.right - plotInformation.left > 2.0 * delta && plotInformation.top - plotInformation.bottom > 2.0 * delta)
+                    if(delta > 0)
                     {
-                        plotInformation.left   += delta;
-                        plotInformation.right  -= delta;
-                        plotInformation.bottom += delta * ((float)_windowSize.y / (float)_windowSize.x);
-                        plotInformation.top    -= delta * ((float)_windowSize.y / (float)_windowSize.x);
+                        delta = 0.05;
+                    }
+                    else
+                    {
+                        delta = -0.05;
+                    }
+    
+                    float xAxisLength = plotInformation.right - plotInformation.left, yAxisLength = plotInformation.top - plotInformation.bottom;
+                    
+                    if(xAxisLength > std::numeric_limits<float>::epsilon() && yAxisLength > std::numeric_limits<float>::epsilon() || delta < 0)
+                    {
+                        plotInformation.left += delta * xAxisLength;
+                        plotInformation.right -= delta * xAxisLength;
+                        plotInformation.bottom += delta * yAxisLength;
+                        plotInformation.top -= delta * yAxisLength;
                     }
                 }
                 
