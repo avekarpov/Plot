@@ -1,16 +1,39 @@
 #include "FunctionManager.hpp"
 #include "PlotManager.hpp"
 
+#include <thread>
+
+#include <iostream>
+
 int main(int argc, char *argv[])
 {
-    float left = -100, right = 100, bottom = -60, top = 60;
+    float from = -100, to = 100;
     float h = 1e-3;
     
-    FunctionManager functionManager;
-    PlotManager plotManager("Plot", {2000, 1200}, "C:/Windows/Fonts/arial.ttf");
+    float left = -100, right = 100;
+    
+    FunctionManager functionManager([](float x){return std::sin(x);}, from, to, h);
+    PlotManager plotManager("Plot", {800, 400}, "C:/Windows/Fonts/arial.ttf");
+    
+    bool isStop = false;
+
+    std::thread displayThread([&]()
+    {
+        plotManager.display(left, right, isStop);
+    });
+    displayThread.detach();
     
     plotManager.setPoints(functionManager.calculate());
-    plotManager.display(left, right, bottom, top);
+    
+    std::string command;
+    
+    do
+    {
+        std::cin >> command;
+    }
+    while(command != "q");
+    
+    isStop = true;
     
     return 0;
 }

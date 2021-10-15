@@ -18,7 +18,7 @@ public:
     const std::string &getWindowTitle() const noexcept;
     sf::Vector2u getWindowSize() const noexcept;
     
-    void display(float left, float right);
+    void display(float left, float right, const bool &isStop = false);
     
     class PlotManagerException : public std::exception
     {
