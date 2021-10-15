@@ -21,7 +21,7 @@ void PlotManager::display(float left, float right, const bool &isStop)
 {
     PlotInformation plotInformation;
     
-    sf::RenderWindow window(sf::VideoMode(_windowSize.x, _windowSize.y), _windowTitle.c_str(), sf::Style::Close | sf::Style::Titlebar);
+    sf::RenderWindow window(sf::VideoMode(_windowSize.x, _windowSize.y), _windowTitle.c_str(), sf::Style::Titlebar);
     sf::Clock frameTime;
     
     sf::Vector2i windowMousePosition;
