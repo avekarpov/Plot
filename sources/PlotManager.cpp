@@ -17,7 +17,7 @@ const std::vector<Point2f> &PlotManager::getPoints() const noexcept
     return _points;
 }
 
-void PlotManager::display(float left, float right, float bottom, float top)
+void PlotManager::display(float left, float right)
 {
     PlotInformation plotInformation;
     
@@ -31,8 +31,8 @@ void PlotManager::display(float left, float right, float bottom, float top)
     
     plotInformation.left = left;
     plotInformation.right = right;
-    plotInformation.bottom = bottom;
-    plotInformation.top = top;
+    plotInformation.bottom = -(float)_windowSize.y / ((float)_windowSize.x / (right - left)) / 2;
+    plotInformation.top = (float)_windowSize.y / ((float)_windowSize.x / (right - left)) / 2;
     
     while(window.isOpen())
     {
