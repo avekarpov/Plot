@@ -13,10 +13,12 @@ public:
     void setPoints(std::vector<Point2f> points) noexcept;
     void setWindowTitle(std::string windowTitle) noexcept;
     void setWindowSize(sf::Vector2u windowSize) noexcept;
+    void setWindowColor(sf::Color windowColor) noexcept;
     
     const std::vector<Point2f> &getPoints() const noexcept;
     const std::string &getWindowTitle() const noexcept;
     sf::Vector2u getWindowSize() const noexcept;
+    sf::Color getWindowColor() const noexcept;
     
     void display(float left, float right, const bool &isStop = false);
     
@@ -43,6 +45,7 @@ private:
     
     std::string _windowTitle;
     sf::Vector2u _windowSize;
+    sf::Color _windowColor;
     
     sf::Font _font;
     

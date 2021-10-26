@@ -36,6 +36,8 @@ void PlotManager::display(float left, float right, const bool &isStop)
     
     while(window.isOpen() && !isStop)
     {
+        window.setTitle(_windowTitle);
+        
         _handleWindowEvents(plotInformation, window);
         
         windowMousePosition = sf::Mouse::getPosition(window);
@@ -51,8 +53,11 @@ void PlotManager::display(float left, float right, const bool &isStop)
     
             plotInformation.mousePosition = _plotMousePosition(plotInformation, windowMousePosition);
             
-            window.clear();
+            //window.clear(_windowColor);
     
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor((float)_windowColor.r / 255.0f, (float)_windowColor.b / 255.0f, (float)_windowColor.g / 255.0f, 0.0);
+            
             _glDraw(plotInformation);
             _sfmlDraw(plotInformation, window);
             
@@ -71,6 +76,11 @@ void PlotManager::setWindowSize(sf::Vector2u windowSize) noexcept
     _windowSize = windowSize;
 }
 
+void PlotManager::setWindowColor(sf::Color windowColor) noexcept
+{
+    _windowColor = windowColor;
+}
+
 const std::string &PlotManager::getWindowTitle() const noexcept
 {
     return _windowTitle;
@@ -79,6 +89,11 @@ const std::string &PlotManager::getWindowTitle() const noexcept
 sf::Vector2u PlotManager::getWindowSize() const noexcept
 {
     return _windowSize;
+}
+
+sf::Color PlotManager::getWindowColor() const noexcept
+{
+    return _windowColor;
 }
 
 void PlotManager::_move(PlotInformation &plotInformation, sf::Vector2i windowMousePosition, sf::Vector2i previousWindowMousePosition) const
@@ -197,6 +212,15 @@ void PlotManager::_glDraw(const PlotInformation &plotInformation) noexcept
         {
             glVertex2f(point.x, point.y);
         }
+    }
+    glEnd();
+    
+    glBegin(GL_LINE_STRIP);
+    {
+        glColor3f(0, 0, 1);
+        glVertex2f(0, plotInformation.mousePosition.y);
+        glVertex2f(plotInformation.mousePosition.x, plotInformation.mousePosition.y);
+        glVertex2f(plotInformation.mousePosition.x, 0);
     }
     glEnd();
 }
